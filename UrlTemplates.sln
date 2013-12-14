@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlTemplates", "UrlTemplates\UrlTemplates.csproj", "{938C8E54-EAAD-4C52-BA78-1BAE2B870503}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UriTemplates.Tests", "UriTemplates.Tests\UriTemplates.Tests.csproj", "{0D4DD758-D512-48A9-A6FE-B6A2FA90FF31}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{938C8E54-EAAD-4C52-BA78-1BAE2B870503}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{938C8E54-EAAD-4C52-BA78-1BAE2B870503}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{938C8E54-EAAD-4C52-BA78-1BAE2B870503}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{938C8E54-EAAD-4C52-BA78-1BAE2B870503}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D4DD758-D512-48A9-A6FE-B6A2FA90FF31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D4DD758-D512-48A9-A6FE-B6A2FA90FF31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D4DD758-D512-48A9-A6FE-B6A2FA90FF31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D4DD758-D512-48A9-A6FE-B6A2FA90FF31}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
