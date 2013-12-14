@@ -1,4 +1,4 @@
-URI Template
+Resta.UriTemplates
 =============
 
 .NET implementation of the URI template spec ([RFC6570](http://tools.ietf.org/html/rfc6570)):
@@ -8,6 +8,11 @@ URI Template
 * Strong validation and error reporting
 * Precompiled URI templates
 * It is passes all tests defined by the [uritemplate-test](https://github.com/uri-templates/uritemplate-test) suite.
+
+Install
+-------
+
+	Install-Package Resta.UriTemplates
 
 
 Examples

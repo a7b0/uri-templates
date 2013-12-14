@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Resta.UriTemplates</id>
+        <version>1.0.0</version>
+        <authors>Pavel Shkarin</authors>
+        <licenseUrl>https://github.com/a7b0/uri-templates/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/a7b0/uri-templates</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>.NET implementation of the URI template spec (RFC6570). Supports up to level 4 template expressions.</description>
+        <tags>URI HTTP REST</tags>
+    </metadata>
+    <files>
+        <file src="..\UrlTemplates\bin\Release\Resta.UriTemplates.dll" target="lib\net35-client\Resta.UriTemplates.dll" />
+    </files>
+</package>
