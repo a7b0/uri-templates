@@ -1,5 +1,5 @@
 Resta.UriTemplates
-=============
+==================
 
 .NET implementation of the URI template spec ([RFC6570](http://tools.ietf.org/html/rfc6570)):
 
@@ -12,37 +12,37 @@ Resta.UriTemplates
 Install
 -------
 
-	Install-Package Resta.UriTemplates
+Install via [NuGet package](https://www.nuget.org/packages/Resta.UriTemplates):
+
+	PM> Install-Package Resta.UriTemplates
 
 
 Examples
-------
+--------
 
 Resolve a URI template:
 
-        var template = new UriTemplate("http://example.org/{area}/news{?type,count}");
+	var template = new UriTemplate("http://example.org/{area}/news{?type,count}");
     
-        var uri = template.Resolve(new Dictionary<string, object>
-        {
-    	    { "area", "world" },
-            { "type", "actual" },
-    	    { "count", "10" }
-        });
+	var uri = template.Resolve(new Dictionary<string, object>
+	{
+		{ "area", "world" },
+		{ "type", "actual" },
+		{ "count", "10" }
+	});
     
-        Assert.AreEqual("http://example.org/world/news?type=actual&count=10", uri);
-    }
+	Assert.AreEqual("http://example.org/world/news?type=actual&count=10", uri);
 
 Another way to resolve a URI template:
 
-        var template = new UriTemplate("http://example.org/{area}/news{?type}");
+	var template = new UriTemplate("http://example.org/{area}/news{?type}");
     
-        var uri = template.GetResolver()
-            .Bind("area", "world")
-            .Bind("type", new string[] { "it", "music", "art" } )
-            .Resolve();
+	var uri = template.GetResolver()
+		.Bind("area", "world")
+		.Bind("type", new string[] { "it", "music", "art" } )
+		.Resolve();
     
-        Assert.AreEqual("http://example.org/world/news?type=it,music,art", uri);
-    }
+	Assert.AreEqual("http://example.org/world/news?type=it,music,art", uri);
 
 Construct a URI template:
 
@@ -57,6 +57,7 @@ Construct a URI template:
 
 License
 -------
+
 Copyright 2013 Pavel Shkarin
 
 [MIT License](http://mit-license.org/)
