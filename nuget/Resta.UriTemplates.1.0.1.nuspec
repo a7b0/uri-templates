@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Resta.UriTemplates</id>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
         <authors>Pavel Shkarin</authors>
         <licenseUrl>https://github.com/a7b0/uri-templates/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/a7b0/uri-templates</projectUrl>
