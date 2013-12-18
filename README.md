@@ -61,3 +61,5 @@ License
 Copyright 2013 Pavel Shkarin
 
 [MIT License](http://mit-license.org/)
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/a7b0/uri-templates/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
