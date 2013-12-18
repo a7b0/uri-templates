@@ -23,7 +23,7 @@
             get { return value; }
         }
 
-        public void Build(StringBuilder builder, IDictionary<string, object> variables)
+        public void Resolve(StringBuilder builder, IDictionary<string, object> variables)
         {
             builder.Append(value);
         }

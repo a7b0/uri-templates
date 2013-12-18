@@ -42,11 +42,6 @@
 
         private List<IUriTemplateComponent> Parse()
         {
-            if (template == null)
-            {
-                throw new ArgumentNullException("template");
-            }
-
             try
             {
                 builder = new StringBuilder();
@@ -94,7 +89,7 @@
             }
             catch (Exception exception)
             {
-                throw new UriTemplateParseException(string.Format("Error at parse URI template: {0}", exception.Message), template, position);
+                throw new UriTemplateParseException(string.Format("Error at parse URI template: {0}", exception.Message), template, position, exception);
             }
 
             return components;
@@ -172,7 +167,7 @@
             }
             else if (!TryReadEndVarSpec(ch))
             {
-                ThrowException("Invalid URI template modifier");
+                ThrowException("InvalidU RI template length modifier");
             }
         }
 
@@ -231,7 +226,7 @@
 
             varSpecs.Add(varSpec);
 
-            builder.Clear();
+            builder.Length = 0;
             varSpecExloded = false;
             varSpecMaxLength = 0;
         }
@@ -241,7 +236,7 @@
             if (builder.Length != 0)
             {
                 components.Add(new Literal(builder.ToString()));
-                builder.Clear();
+                builder.Length = 0;
             }
         }
 

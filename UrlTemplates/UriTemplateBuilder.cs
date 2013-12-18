@@ -3,6 +3,9 @@
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Used to effective programmatically construct URI template
+    /// </summary>
     public class UriTemplateBuilder
     {
         private readonly List<IUriTemplateComponent> components;
@@ -69,9 +72,10 @@
             return this;
         }
 
-        public void Clear()
+        public UriTemplateBuilder Clear()
         {
             components.Clear();
+            return this;
         }
 
         public UriTemplate Build()

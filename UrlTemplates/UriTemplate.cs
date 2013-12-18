@@ -71,7 +71,7 @@
             {
                 foreach (var component in components)
                 {
-                    component.Build(builder, variables);
+                    component.Resolve(builder, variables);
                 }
             }
             catch (UriTemplateException)

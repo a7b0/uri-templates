@@ -37,7 +37,7 @@
             get { return varSpecs; }
         }
 
-        public void Build(StringBuilder builder, IDictionary<string, object> variables)
+        public void Resolve(StringBuilder builder, IDictionary<string, object> variables)
         {
             var first = true;
 

@@ -63,7 +63,7 @@
                 builder.Append(op, new VarSpec("test"));
             }
 
-            var actual = string.Join(string.Empty, ops.Select(x => "{" + x + "test}"));
+            var actual = string.Join(string.Empty, ops.Select(x => "{" + x + "test}").ToArray());
 
             Assert.AreEqual(actual, builder.Build().Template);
         }
