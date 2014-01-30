@@ -46,6 +46,9 @@
 
             switch (code)
             {
+                case '\0':
+                    op = defaultOp;
+                    break;
                 case '+':
                     op = reservedOp;
                     break;

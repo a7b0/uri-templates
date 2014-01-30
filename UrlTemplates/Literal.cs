@@ -23,7 +23,7 @@
             get { return value; }
         }
 
-        public void Resolve(StringBuilder builder, IDictionary<string, object> variables)
+        public void Resolve(UriTemplateBuilder builder, IDictionary<string, object> variables, bool keepUnresolved)
         {
             builder.Append(value);
         }
