@@ -37,16 +37,23 @@
             get { return varSpecs; }
         }
 
-        public void Resolve(StringBuilder builder, IDictionary<string, object> variables)
+        public void Resolve(UriTemplateBuilder builder, IDictionary<string, object> variables, bool keepUnresolved)
         {
             var first = true;
-
+            var varsLeft = new List<VarSpec>();
             foreach (var varSpec in varSpecs)
             {
                 object value;
 
-                if (!variables.TryGetValue(varSpec.Name, out value) || value == null)
+                if (!variables.TryGetValue(varSpec.Name, out value))
                 {
+                    // If there was no binding found, keep the varspec
+                    varsLeft.Add(varSpec);
+                    continue;
+                }
+                if (value == null)
+                {
+                    // If a binding was found but it was empty, ignore this variable
                     continue;
                 }
 
@@ -79,27 +86,44 @@
                     }
                 }
 
+                var sb = new StringBuilder();
                 if (first)
                 {
-                    builder.Append(op.Prefix);
+                    sb.Append(op.Prefix);
                     first = false;
                 }
                 else
                 {
-                    builder.Append(op.Separator);
+                    sb.Append(op.Separator);
                 }
-
                 if (stringValue != null)
                 {
-                    BuildStringValue(builder, varSpec, stringValue);
+                    BuildStringValue(sb, varSpec, stringValue);
                 }
                 else if (collectionValue != null)
                 {
-                    BuildCollectionValue(builder, varSpec, collectionValue);
+                    BuildCollectionValue(sb, varSpec, collectionValue);
                 }
                 else
                 {
-                    BuildDictionaryValue(builder, varSpec, dictionaryValue);
+                    BuildDictionaryValue(sb, varSpec, dictionaryValue);
+                }
+                builder.Append(sb.ToString());
+            }
+
+            if (keepUnresolved)
+            {
+                var varsLeftArr = varsLeft.ToArray();
+                if (varsLeftArr.Length > 0)
+                {
+                    if (Operator.Code == '?' && !first)
+                    {
+                        builder.Append('&', varsLeftArr);
+                    }
+                    else
+                    {
+                        builder.Append(Operator.Code, varsLeftArr);
+                    }
                 }
             }
         }

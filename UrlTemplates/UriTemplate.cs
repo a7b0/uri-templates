@@ -65,13 +65,27 @@
 
         public string Resolve(IDictionary<string, object> variables)
         {
-            var builder = new StringBuilder();
+            return InternalResolve(variables, false).Template;
+        }
 
+        public Uri ResolveUri(IDictionary<string, object> variables)
+        {
+            return new Uri(Resolve(variables));
+        }
+
+        public UriTemplate ResolveUriTemplate(IDictionary<string, object> variables)
+        {
+            return InternalResolve(variables, true);
+        }
+
+        private UriTemplate InternalResolve(IDictionary<string, object> variables, bool keepUnresolved)
+        {
+            var uriTemplateBuilder = new UriTemplateBuilder();
             try
             {
                 foreach (var component in components)
                 {
-                    component.Resolve(builder, variables);
+                    component.Resolve(uriTemplateBuilder, variables, keepUnresolved);
                 }
             }
             catch (UriTemplateException)
@@ -82,13 +96,7 @@
             {
                 throw new UriTemplateException("Error at build uri template", exception);
             }
-
-            return builder.ToString();
-        }
-
-        public Uri ResolveUri(IDictionary<string, object> variables)
-        {
-            return new Uri(Resolve(variables));
+            return uriTemplateBuilder.Build();
         }
 
         public override string ToString()

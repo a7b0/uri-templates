@@ -5,6 +5,6 @@
 
     internal interface IUriTemplateComponent
     {
-        void Resolve(StringBuilder builder, IDictionary<string, object> variables);
+        void Resolve(UriTemplateBuilder builder, IDictionary<string, object> variables, bool keepUnresolved);
     }
 }

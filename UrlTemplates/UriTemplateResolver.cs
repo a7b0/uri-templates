@@ -24,6 +24,11 @@
             return template.ResolveUri(values);
         }
 
+        public UriTemplate ResolveUriTemplate()
+        {
+            return template.ResolveUriTemplate(values);
+        }
+
         public UriTemplateResolver Bind(string name, string value)
         {
             return BindVariable(name, value);
