@@ -36,6 +36,7 @@ namespace UriTemplates.Tests
 
             Assert.AreEqual("http://example.com/test/{path2}?test=abc&query1=testq1{&query2}", partiallyResolved.Template);
         }
+
         [Test]
         public void PartialResolveQueryWithSomeParamsTest()
         {
@@ -44,6 +45,16 @@ namespace UriTemplates.Tests
             var partiallyResolved = template.ResolveUriTemplate(new Dictionary<string, object>() { { "path1", "test" }, { "query1", "testq1" } });
 
             Assert.AreEqual("http://example.com/test/{path2}?query1=testq1{&query2}", partiallyResolved.Template);
+        }
+
+        [Test]
+        public void PartialResolveQueryWithNullParamsTest()
+        {
+            var template = new UriTemplate("http://example.com/{path1}/{path2}{?query1,query2}");
+
+            var partiallyResolved = template.ResolveUriTemplate(new Dictionary<string, object>() { { "path1", "test" }, { "query1", "testq1" }, { "query2", null} });
+
+            Assert.AreEqual("http://example.com/test/{path2}?query1=testq1", partiallyResolved.Template);
         }
     }
 }

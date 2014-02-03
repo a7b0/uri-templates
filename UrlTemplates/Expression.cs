@@ -45,9 +45,15 @@
             {
                 object value;
 
-                if (!variables.TryGetValue(varSpec.Name, out value) || value == null)
+                if (!variables.TryGetValue(varSpec.Name, out value))
                 {
+                    // If there was no binding found, keep the varspec
                     varsLeft.Add(varSpec);
+                    continue;
+                }
+                if (value == null)
+                {
+                    // If a binding was found but it was empty, ignore this variable
                     continue;
                 }
 
