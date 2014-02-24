@@ -37,69 +37,91 @@
             get { return varSpecs; }
         }
 
-        public void Resolve(StringBuilder builder, IDictionary<string, object> variables)
+        public IEnumerable<IUriTemplateComponent> ResolveTemplate(IDictionary<string, object> variables)
         {
-            var first = true;
+            var builder = new StringBuilder();
+            var varsLeft = new List<VarSpec>();
+            var components = new List<IUriTemplateComponent>();
+
+            var hasPrefix = false;
+            var hasLiterals = false;
+            var hasExpressions = false;
 
             foreach (var varSpec in varSpecs)
             {
                 object value;
 
-                if (!variables.TryGetValue(varSpec.Name, out value) || value == null)
+                if (!variables.TryGetValue(varSpec.Name, out value))
                 {
-                    continue;
-                }
-
-                string stringValue = null;
-                IDictionary<string, string> dictionaryValue = null;
-                IEnumerable<string> collectionValue = null;
-
-                stringValue = value as string;
-
-                if (stringValue == null)
-                {
-                    collectionValue = value as IEnumerable<string>;
-
-                    if (collectionValue == null)
+                    if (builder.Length > 0 && op != Operator.Query)
                     {
-                        dictionaryValue = value as IDictionary<string, string>;
+                        components.Add(new Literal(builder.ToString()));
+                        builder.Length = 0;
+                        hasLiterals = true;
+                    }
 
-                        if (dictionaryValue == null)
+                    varsLeft.Add(varSpec);
+                }
+                else if (value != null)
+                {
+                    if (Resolve(builder, varSpec, value, hasPrefix))
+                    {
+                        hasPrefix = true;
+
+                        if (varsLeft.Count > 0 && op != Operator.Query)
                         {
-                            throw new UriTemplateException(string.Format("Invalid type of variable value \"{0}\". Expected: string or IEnumerable<string> or IDictionary<string, string>", value.GetType()));
-                        }
-                        else if (dictionaryValue.Count == 0)
-                        {
-                            continue;
+                            components.Add(new Expression(op, varsLeft));
+                            hasExpressions = true;
+                            varsLeft = new List<VarSpec>();
                         }
                     }
-                    else if (collectionValue.Count() == 0)
+                }
+            }
+
+            if (builder.Length > 0)
+            {
+                components.Add(new Literal(builder.ToString()));
+                hasLiterals = true;
+            }
+
+            if (varsLeft.Count > 0)
+            {
+                var expressionOp = op;
+
+                if (hasLiterals && op == Operator.Query)
+                {
+                    expressionOp = Operator.Continuation;
+                }
+
+                components.Add(new Expression(expressionOp, varsLeft));
+                hasExpressions = true;
+            }
+
+            if (hasExpressions && hasLiterals)
+            {
+                if (op == Operator.Default || op == Operator.Reserved || op == Operator.Fragment)
+                {
+                    throw new UriTemplateException(string.Format("Partial resolve of expression \"{0}\" is not available.", ToString()));
+                }
+            }
+
+            return components;
+        }
+
+        public void Resolve(StringBuilder builder, IDictionary<string, object> variables)
+        {
+            var hasPrefix = false;
+
+            foreach (var varSpec in varSpecs)
+            {
+                object value;
+
+                if (variables.TryGetValue(varSpec.Name, out value) && value != null)
+                {
+                    if (Resolve(builder, varSpec, value, hasPrefix))
                     {
-                        continue;
+                        hasPrefix = true;
                     }
-                }
-
-                if (first)
-                {
-                    builder.Append(op.Prefix);
-                    first = false;
-                }
-                else
-                {
-                    builder.Append(op.Separator);
-                }
-
-                if (stringValue != null)
-                {
-                    BuildStringValue(builder, varSpec, stringValue);
-                }
-                else if (collectionValue != null)
-                {
-                    BuildCollectionValue(builder, varSpec, collectionValue);
-                }
-                else
-                {
-                    BuildDictionaryValue(builder, varSpec, dictionaryValue);
                 }
             }
         }
@@ -139,6 +161,62 @@
             builder.Append('}');
 
             return builder.ToString();
+        }
+
+        private bool Resolve(StringBuilder builder, VarSpec varSpec, object value, bool hasPrefix)
+        {
+            string stringValue = null;
+            IDictionary<string, string> dictionaryValue = null;
+            IEnumerable<string> collectionValue = null;
+
+            stringValue = value as string;
+
+            if (stringValue == null)
+            {
+                collectionValue = value as IEnumerable<string>;
+
+                if (collectionValue == null)
+                {
+                    dictionaryValue = value as IDictionary<string, string>;
+
+                    if (dictionaryValue == null)
+                    {
+                        throw new UriTemplateException(string.Format("Invalid type of variable value \"{0}\". Expected: string or IEnumerable<string> or IDictionary<string, string>", value.GetType()));
+                    }
+                    else if (dictionaryValue.Count == 0)
+                    {
+                        return false;
+                    }
+                }
+                else if (collectionValue.Count() == 0)
+                {
+                    return false;
+                }
+            }
+
+            if (hasPrefix)
+            {
+                builder.Append(op.Separator);
+            }
+            else
+            {
+                builder.Append(op.Prefix);
+            }
+
+            if (stringValue != null)
+            {
+                BuildStringValue(builder, varSpec, stringValue);
+            }
+            else if (collectionValue != null)
+            {
+                BuildCollectionValue(builder, varSpec, collectionValue);
+            }
+            else
+            {
+                BuildDictionaryValue(builder, varSpec, dictionaryValue);
+            }
+
+            return true;
         }
 
         private void BuildValue(StringBuilder builder, VarSpec varSpec, string value)

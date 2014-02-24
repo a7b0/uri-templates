@@ -6,5 +6,7 @@
     internal interface IUriTemplateComponent
     {
         void Resolve(StringBuilder builder, IDictionary<string, object> variables);
+
+        IEnumerable<IUriTemplateComponent> ResolveTemplate(IDictionary<string, object> variables);
     }
 }

@@ -28,6 +28,11 @@
             builder.Append(value);
         }
 
+        public IEnumerable<IUriTemplateComponent> ResolveTemplate(IDictionary<string, object> variables)
+        {
+            return new IUriTemplateComponent[] { this };
+        }
+
         public override string ToString()
         {
             return value;

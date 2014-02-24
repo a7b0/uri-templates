@@ -60,13 +60,7 @@
 
         public UriTemplateBuilder Append(char exprOperator, params VarSpec[] varSpecs)
         {
-            Operator op;
-
-            if (!Operator.TryParse(exprOperator, out op))
-            {
-                throw new UriTemplateException(string.Format("Expression operator \"{0}\" is unknown", op));
-            }
-
+            var op = Operator.Parse(exprOperator);
             var expression = new Expression(op, new List<VarSpec>(varSpecs));
             components.Add(expression);
             return this;

@@ -65,6 +65,11 @@
 
         public string Resolve(IDictionary<string, object> variables)
         {
+            if (variables == null)
+            {
+                throw new ArgumentNullException("variables");
+            }
+
             var builder = new StringBuilder();
 
             try
@@ -80,7 +85,7 @@
             }
             catch (Exception exception)
             {
-                throw new UriTemplateException("Error at build uri template", exception);
+                throw new UriTemplateException("Error at resolve uri template.", exception);
             }
 
             return builder.ToString();
@@ -89,6 +94,39 @@
         public Uri ResolveUri(IDictionary<string, object> variables)
         {
             return new Uri(Resolve(variables));
+        }
+
+        public UriTemplate ResolveTemplate(IDictionary<string, object> variables)
+        {
+            if (variables == null)
+            {
+                throw new ArgumentNullException("variables");
+            }
+
+            if (variables.Count == 0)
+            {
+                return this;
+            }
+
+            var partialComponents = new List<IUriTemplateComponent>();
+
+            try
+            {
+                foreach (var component in components)
+                {
+                    partialComponents.AddRange(component.ResolveTemplate(variables));
+                }
+            }
+            catch (UriTemplateException)
+            {
+                throw;
+            }
+            catch (Exception exception)
+            {
+                throw new UriTemplateException("Error at partial resolve uri template.", exception);
+            }
+
+            return new UriTemplate(partialComponents);
         }
 
         public override string ToString()

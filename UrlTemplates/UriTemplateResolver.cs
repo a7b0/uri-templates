@@ -6,22 +6,27 @@
     public sealed class UriTemplateResolver
     {
         private readonly UriTemplate template;
-        private readonly Dictionary<string, object> values;
+        private readonly Dictionary<string, object> variables;
 
         internal UriTemplateResolver(UriTemplate template)
         {
             this.template = template;
-            this.values = new Dictionary<string, object>();
+            this.variables = new Dictionary<string, object>();
         }
 
         public string Resolve()
         {
-            return template.Resolve(values);
+            return template.Resolve(variables);
         }
 
         public Uri ResolveUri()
         {
-            return template.ResolveUri(values);
+            return template.ResolveUri(variables);
+        }
+
+        public UriTemplate ResolveTemplate()
+        {
+            return template.ResolveTemplate(variables);
         }
 
         public UriTemplateResolver Bind(string name, string value)
@@ -39,6 +44,11 @@
             return BindVariable(name, values);
         }
 
+        public UriTemplateResolver Ignore(string name)
+        {
+            return BindVariable(name, null);
+        }
+
         private UriTemplateResolver BindVariable(string name, object value)
         {
             if (name == null)
@@ -46,7 +56,7 @@
                 throw new ArgumentNullException("name");
             }
 
-            values.Add(name, value);
+            variables.Add(name, value);
             return this;
         }
     }

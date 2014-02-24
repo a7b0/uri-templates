@@ -7,6 +7,7 @@ Resta.UriTemplates
 * Fluent API for manipulating URI templates
 * Strong validation and error reporting
 * Precompiled URI templates
+* Partial resolve of URI templates
 * It is passes all tests defined by the [uritemplate-test](https://github.com/uri-templates/uritemplate-test) suite.
 
 Install
@@ -54,6 +55,16 @@ Construct a URI template:
 	    .Build();
 	
 	Assert.AreEqual("http://example.org/{area}/news{?type,count}", template.ToString());
+
+Partial resolve a URI template:
+
+	var template = new UriTemplate("http://example.org/{area}/news{?type,count}");
+	
+	var partiallyResolved = template.GetResolver("count", "10").ResolveTemplate();
+    
+	Assert.AreEqual("http://example.org/{area}/news?count=10{&type}", partiallyResolved.ToString());
+
+**NB!** Partial resolve of expressions "default", "reserved" and "fragment" is not possible for multiple variables.
 
 License
 -------

@@ -43,6 +43,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PartialResolveTest.cs" />
     <Compile Include="SpecExampleTest.cs" />
     <Compile Include="SpecExtendedTests.cs" />
     <Compile Include="SpecNegativeTests.cs" />

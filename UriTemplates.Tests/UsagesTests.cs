@@ -104,11 +104,11 @@
             var template = new UriTemplate("http://example.org/{area}/last-news{?type,count}");
 
             var uri = template.Resolve(new Dictionary<string, object>
-		    {
-			    { "area", "world" },
+            {
+                { "area", "world" },
                 { "type", "actual" },
-			    { "count", "10" }
-		    });
+                { "count", "10" }
+            });
 
             Assert.AreEqual("http://example.org/world/last-news?type=actual&count=10", uri);
         }
@@ -120,7 +120,7 @@
 
             var uri = template.GetResolver()
                 .Bind("area", "world")
-                .Bind("type", new string[] { "it", "music", "art" } )
+                .Bind("type", new string[] { "it", "music", "art" })
                 .Resolve();
 
             Assert.AreEqual("http://example.org/world/last-news?type=it,music,art", uri);

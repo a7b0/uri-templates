@@ -4,16 +4,16 @@
 
     internal class Operator
     {
-        private static Operator defaultOp = new Operator('\0', null, ",", null, false, false);
-        private static Operator reservedOp = new Operator('+', null, ",", null, false, true);
-        private static Operator labelOp = new Operator('.', ".", ".", null, false, false);
-        private static Operator pathOp = new Operator('/', "/", "/", null, false, false);
-        private static Operator matrixOp = new Operator(';', ";", ";", null, true, false);
-        private static Operator queryOp = new Operator('?', "?", "&", "=", true, false);
-        private static Operator continuationOp = new Operator('&', "&", "&", "=", true, false);
-        private static Operator fragmentOp = new Operator('#', "#", ",", null, false, true);
+        public static readonly Operator Default = new Operator('\0', null, ",", null, false, false);
+        public static readonly Operator Reserved = new Operator('+', null, ",", null, false, true);
+        public static readonly Operator Label = new Operator('.', ".", ".", null, false, false);
+        public static readonly Operator Path = new Operator('/', "/", "/", null, false, false);
+        public static readonly Operator Matrix = new Operator(';', ";", ";", null, true, false);
+        public static readonly Operator Query = new Operator('?', "?", "&", "=", true, false);
+        public static readonly Operator Continuation = new Operator('&', "&", "&", "=", true, false);
+        public static readonly Operator Fragment = new Operator('#', "#", ",", null, false, true);
 
-        public Operator(char code, string prefix, string separator, string empty, bool named, bool allowReserved)
+        private Operator(char code, string prefix, string separator, string empty, bool named, bool allowReserved)
         {
             Code = code;
             Prefix = prefix ?? string.Empty;
@@ -21,11 +21,6 @@
             Empty = empty ?? string.Empty;
             Named = named;
             AllowReserved = allowReserved;
-        }
-
-        public static Operator Default
-        {
-            get { return defaultOp; }
         }
 
         public char Code { get; private set; }
@@ -40,38 +35,54 @@
 
         public bool AllowReserved { get; private set; }
 
-        internal static bool TryParse(char code, out Operator op)
+        public static Operator Parse(char code)
+        {
+            Operator op;
+
+            if (!TryParse(code, out op))
+            {
+                throw new UriTemplateException(string.Format("Expression operator \"{0}\" is unknown", op));
+            }
+
+            return op;
+        }
+
+        public static bool TryParse(char code, out Operator op)
         {
             op = null;
 
             switch (code)
             {
+                case '\0':
+                    op = Default;
+                    break;
+
                 case '+':
-                    op = reservedOp;
+                    op = Reserved;
                     break;
 
                 case '#':
-                    op = fragmentOp;
+                    op = Fragment;
                     break;
 
                 case '.':
-                    op = labelOp;
+                    op = Label;
                     break;
 
                 case '/':
-                    op = pathOp;
+                    op = Path;
                     break;
 
                 case ';':
-                    op = matrixOp;
+                    op = Matrix;
                     break;
 
                 case '?':
-                    op = queryOp;
+                    op = Query;
                     break;
 
                 case '&':
-                    op = continuationOp;
+                    op = Continuation;
                     break;
 
                 default:
