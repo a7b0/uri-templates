@@ -60,7 +60,7 @@ Partial resolve a URI template:
 
 	var template = new UriTemplate("http://example.org/{area}/news{?type,count}");
 	
-	var partiallyResolved = template.GetResolver("count", "10").ResolveTemplate();
+	var partiallyResolved = template.GetResolver().Bind("count", "10").ResolveTemplate();
     
 	Assert.AreEqual("http://example.org/{area}/news?count=10{&type}", partiallyResolved.ToString());
 
