@@ -68,6 +68,16 @@
             get { return maxLength; }
         }
 
+        public static string Escape(string name)
+        {
+            return PctEncoding.Escape(name, CharSpec.VarChar);
+        }
+
+        public static string Unescape(string name)
+        {
+            return PctEncoding.Unescape(name, CharSpec.VarChar);
+        }
+
         private static bool IsWellFormedName(string name)
         {
             for (var i = 0; i < name.Length; i++)
