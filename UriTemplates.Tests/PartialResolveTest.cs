@@ -1,8 +1,7 @@
-﻿namespace UriTemplates.Tests
+﻿namespace Resta.UriTemplates.Tests
 {
     using System.Collections.Generic;
     using NUnit.Framework;
-    using Resta.UriTemplates;
 
     [TestFixture]
     public class PartialResolveTests

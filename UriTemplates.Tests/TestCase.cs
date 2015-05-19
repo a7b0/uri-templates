@@ -1,4 +1,4 @@
-﻿namespace UriTemplates.Tests
+﻿namespace Resta.UriTemplates.Tests
 {
     using System.Collections.Generic;
 

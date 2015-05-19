@@ -1,8 +1,7 @@
-﻿namespace UriTemplates.Tests
+﻿namespace Resta.UriTemplates.Tests
 {
-    using NUnit.Framework;
-    using Resta.UriTemplates;
     using System.Collections.Generic;
+    using NUnit.Framework;
 
     [TestFixture]
     public class UsagesTests

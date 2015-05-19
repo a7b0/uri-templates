@@ -1,7 +1,6 @@
-﻿namespace UriTemplates.Tests
+﻿namespace Resta.UriTemplates.Tests
 {
     using NUnit.Framework;
-    using Resta.UriTemplates;
     using System;
     using System.Collections.Generic;
     using System.Linq;

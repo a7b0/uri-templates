@@ -1,7 +1,6 @@
-﻿namespace UriTemplates.Tests
+﻿namespace Resta.UriTemplates.Tests
 {
     using NUnit.Framework;
-    using Resta.UriTemplates;
 
     [TestFixture]
     public class PctEncodingTests
