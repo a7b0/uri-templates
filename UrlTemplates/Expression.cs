@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Text;
 
-    internal class Expression : IUriTemplateComponent
+    internal class Expression : IUriComponent
     {
         private readonly Operator op;
         private readonly List<VarSpec> varSpecs;
@@ -37,11 +37,11 @@
             get { return varSpecs; }
         }
 
-        public IEnumerable<IUriTemplateComponent> ResolveTemplate(IDictionary<string, object> variables)
+        public IEnumerable<IUriComponent> ResolveTemplate(IDictionary<string, object> variables)
         {
             var builder = new StringBuilder();
             var varsLeft = new List<VarSpec>();
-            var components = new List<IUriTemplateComponent>();
+            var components = new List<IUriComponent>();
 
             var hasPrefix = false;
             var hasLiterals = false;
@@ -181,7 +181,7 @@
 
                     if (dictionaryValue == null)
                     {
-                        throw new UriTemplateException(string.Format("Invalid type of variable value \"{0}\". Expected: string or IEnumerable<string> or IDictionary<string, string>", value.GetType()));
+                        throw new UriTemplateException(string.Format("Invalid value type of variable \"{0}\". Expected: string or IEnumerable<string> or IDictionary<string, string>.", value.GetType()));
                     }
                     else if (dictionaryValue.Count == 0)
                     {
@@ -221,7 +221,9 @@
 
         private void BuildValue(StringBuilder builder, VarSpec varSpec, string value)
         {
-            builder.Append(PctEncoding.Escape(value, op.AllowReserved));
+            var charSpec = op.AllowReserved ? CharSpec.ExtendedSafe : CharSpec.Safe;
+            value = PctEncoding.Escape(value, charSpec);
+            builder.Append(value);
         }
 
         private void BuildStringValue(StringBuilder builder, VarSpec varSpec, string value)
@@ -308,7 +310,7 @@
                     builder.Append(varSpec.Exploded ? op.Separator : ",");
                 }
 
-                var key = PctEncoding.Escape(item.Key, true);
+                var key = PctEncoding.Escape(item.Key, CharSpec.ExtendedSafe);
 
                 builder.Append(key);
                 builder.Append(varSpec.Exploded ? '=' : ',');

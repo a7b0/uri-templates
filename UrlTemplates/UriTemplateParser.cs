@@ -7,7 +7,7 @@
     internal class UriTemplateParser
     {
         private string template;
-        private List<IUriTemplateComponent> components;
+        private List<IUriComponent> components;
         private StringBuilder builder;
         private Token token;
         private int position;
@@ -35,17 +35,17 @@
             VarSpecExploded
         }
 
-        public static List<IUriTemplateComponent> Parse(string template)
+        public static List<IUriComponent> Parse(string template)
         {
             return new UriTemplateParser(template).Parse();
         }
 
-        private List<IUriTemplateComponent> Parse()
+        private List<IUriComponent> Parse()
         {
             try
             {
                 builder = new StringBuilder();
-                components = new List<IUriTemplateComponent>();
+                components = new List<IUriComponent>();
                 token = Token.Literal;
 
                 for (position = 0; position < template.Length; position++)
@@ -140,9 +140,9 @@
                 varSpecMaxLength = -1;
                 token = Token.VarSpecMaxLength;
             }
-            else if (!VarSpec.IsValidNameChar(ch))
+            else if (!CharSpec.IsVarChar(ch))
             {
-                ThrowException("Invalid name of template variable");
+                ThrowException("Invalid name of template variable.");
             }
             else
             {
@@ -167,7 +167,7 @@
             }
             else if (!TryReadEndVarSpec(ch))
             {
-                ThrowException("InvalidU RI template length modifier");
+                ThrowException("Invalid URI template length modifier");
             }
         }
 
@@ -214,10 +214,11 @@
         {
             if (varSpecMaxLength == -1)
             {
-                ThrowException("Invalid URI template modifier");
+                ThrowException("Invalid URI template modifier.");
             }
 
-            var varSpec = new VarSpec(builder.ToString(), varSpecExloded, varSpecMaxLength);
+            var name = builder.ToString();
+            var varSpec = new VarSpec(name, varSpecExloded, varSpecMaxLength, true);
 
             if (varSpecs == null)
             {

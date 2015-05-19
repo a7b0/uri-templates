@@ -10,7 +10,7 @@
     public sealed class UriTemplate
     {
         private readonly string template;
-        private readonly List<IUriTemplateComponent> components;
+        private readonly List<IUriComponent> components;
         private List<VarSpec> variables;
 
         public UriTemplate(string template)
@@ -24,14 +24,14 @@
             this.components = UriTemplateParser.Parse(template);
         }
 
-        internal UriTemplate(IEnumerable<IUriTemplateComponent> components)
+        internal UriTemplate(IEnumerable<IUriComponent> components)
         {
             if (components == null)
             {
                 throw new ArgumentNullException("components");
             }
 
-            this.components = new List<IUriTemplateComponent>(components);
+            this.components = new List<IUriComponent>(components);
             this.template = GetTemplateString(this.components);
         }
 
@@ -53,7 +53,7 @@
             }
         }
 
-        internal IEnumerable<IUriTemplateComponent> Components
+        internal IEnumerable<IUriComponent> Components
         {
             get { return components; }
         }
@@ -70,7 +70,7 @@
                 throw new ArgumentNullException("variables");
             }
 
-            var builder = new StringBuilder();
+            var builder = new StringBuilder(template.Length * 2);
 
             try
             {
@@ -108,7 +108,7 @@
                 return this;
             }
 
-            var partialComponents = new List<IUriTemplateComponent>();
+            var partialComponents = new List<IUriComponent>();
 
             try
             {
@@ -134,7 +134,7 @@
             return template;
         }
 
-        private static string GetTemplateString(List<IUriTemplateComponent> components)
+        private static string GetTemplateString(List<IUriComponent> components)
         {
             var builder = new StringBuilder();
 
@@ -146,7 +146,7 @@
             return builder.ToString();
         }
 
-        private static List<VarSpec> GetVariables(List<IUriTemplateComponent> components)
+        private static List<VarSpec> GetVariables(List<IUriComponent> components)
         {
             var variables = new List<VarSpec>();
 

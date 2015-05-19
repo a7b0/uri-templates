@@ -42,8 +42,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CharSpec.cs" />
     <Compile Include="Expression.cs" />
-    <Compile Include="IUriTemplateComponent.cs" />
+    <Compile Include="IUriComponent.cs" />
     <Compile Include="Literal.cs" />
     <Compile Include="Operator.cs" />
     <Compile Include="PctEncoding.cs" />

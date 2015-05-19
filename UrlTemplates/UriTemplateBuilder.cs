@@ -4,15 +4,15 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// Used to effective programmatically construct URI template
+    /// Used to effective programmatically construct URI template.
     /// </summary>
     public class UriTemplateBuilder
     {
-        private readonly List<IUriTemplateComponent> components;
+        private readonly List<IUriComponent> components;
 
         public UriTemplateBuilder()
         {
-            this.components = new List<IUriTemplateComponent>();
+            this.components = new List<IUriComponent>();
         }
 
         public UriTemplateBuilder(string template)
@@ -27,7 +27,7 @@
                 throw new ArgumentNullException("uriTemplate");
             }
 
-            this.components = new List<IUriTemplateComponent>(uriTemplate.Components);
+            this.components = new List<IUriComponent>(uriTemplate.Components);
         }
 
         public UriTemplateBuilder(UriTemplateBuilder builder)
@@ -37,7 +37,7 @@
                 throw new ArgumentNullException("builder");
             }
 
-            this.components = new List<IUriTemplateComponent>(builder.components);
+            this.components = new List<IUriComponent>(builder.components);
         }
 
         public UriTemplateBuilder Append(string value)

@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Text;
 
-    internal class Literal : IUriTemplateComponent
+    internal class Literal : IUriComponent
     {
         private readonly string value;
 
@@ -28,9 +28,9 @@
             builder.Append(value);
         }
 
-        public IEnumerable<IUriTemplateComponent> ResolveTemplate(IDictionary<string, object> variables)
+        public IEnumerable<IUriComponent> ResolveTemplate(IDictionary<string, object> variables)
         {
-            return new IUriTemplateComponent[] { this };
+            return new IUriComponent[] { this };
         }
 
         public override string ToString()

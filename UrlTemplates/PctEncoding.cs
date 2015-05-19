@@ -1,135 +1,212 @@
 ﻿namespace Resta.UriTemplates
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
-    internal class PctEncoding
+    internal static class PctEncoding
     {
         private static readonly string HexAlphabit = "0123456789ABCDEF";
 
-        public static string Escape(string value, bool allowReserved)
+        public static string Escape(string value, Predicate<char> predicate)
         {
             if (value == null)
             {
                 throw new ArgumentNullException("value");
             }
 
-            var i = 0;
-            var nonAsciiIndex = -1;
-            var builder = new StringBuilder(value.Length * 2);
+            var index = 0;
+            var lastIndex = 0;
+            var encode = false;
+            StringBuilder builder = null;
 
-            while (i < value.Length)
+            while (index < value.Length)
             {
-                var symbol = value[i];
+                var ch = value[index];
 
-                if (symbol > 127)
+                if (ch < 128)
                 {
-                    if (nonAsciiIndex == -1)
+                    if (encode)
                     {
-                        nonAsciiIndex = i;
+                        EscapeBytes(builder, value, lastIndex, index - lastIndex);
+                        lastIndex = index;
+                        encode = false;
+                    }
+
+                    if (!predicate(ch))
+                    {
+                        if (builder == null)
+                        {
+                            builder = new StringBuilder(value.Length * 2);
+                        }
+
+                        builder.Append(value, lastIndex, index - lastIndex);
+                        EscapeByte(builder, (byte)ch);
+                        lastIndex = index + 1;
                     }
                 }
-                else 
+                else if (!encode)
                 {
-                    if (nonAsciiIndex != -1)
+                    if (builder == null)
                     {
-                        AppendNonAsciiString(builder, value, nonAsciiIndex, i - nonAsciiIndex);
-                        nonAsciiIndex = -1;
+                        builder = new StringBuilder(value.Length * 2);
                     }
 
-                    if (IsUnreservedChar(symbol) || (allowReserved && IsReservedChar(symbol)))
-                    {
-                        builder.Append(symbol);
-                    }
-                    else
-                    {
-                        AppendHexString(builder, (byte)symbol);
-                    }
+                    builder.Append(value, lastIndex, index - lastIndex);
+
+                    encode = true;
+                    lastIndex = index;
                 }
 
-                i++;
+                index++;
             }
 
-            if (nonAsciiIndex != -1)
+            if (encode)
             {
-                AppendNonAsciiString(builder, value, nonAsciiIndex, i - nonAsciiIndex);
+                if (builder == null)
+                {
+                    builder = new StringBuilder(value.Length * 2);
+                }
+
+                EscapeBytes(builder, value, lastIndex, value.Length - lastIndex);
+                lastIndex = value.Length;
             }
 
-            return builder.ToString();
+            if (builder != null)
+            {
+                builder.Append(value, lastIndex, value.Length - lastIndex);
+                value = builder.ToString();
+            }
+
+            return value;
         }
 
-        private static void AppendNonAsciiString(StringBuilder builder, string value, int charIndex, int charCount)
+        public static string Unescape(string value)
         {
-            var byteCount = Encoding.UTF8.GetMaxByteCount(charCount);
-
-            var buffer = new byte[byteCount];
-            byteCount = Encoding.UTF8.GetBytes(value, charIndex, charCount, buffer, 0);
-
-            if (byteCount == 0)
-            {
-                throw new UriTemplateException(string.Format("Error at escape value \"{0}\"", value));
-            }
-
-            for (var j = 0; j < byteCount; j++)
-            {
-                AppendHexString(builder, buffer[j]);
-            }
+            return Unescape(value, null);
         }
 
-        private static void AppendHexString(StringBuilder builder, byte value)
+        public static string Unescape(string value, Predicate<char> predicate)
+        {
+            var index = 0;
+            var lastIndex = 0;
+            byte[] buffer = null;
+            var bufferIndex = 0;
+            StringBuilder builder = null;
+
+            while (index != value.Length)
+            {
+                var ch = value[index];
+
+                if (ch == '%' && index < value.Length - 2)
+                {
+                    var digit1 = GetHexDigit(value[index + 1]);
+                    var digit2 = GetHexDigit(value[index + 2]);
+
+                    if (digit1 != -1 && digit2 != -1)
+                    {
+                        if (buffer == null)
+                        {
+                            var bufferSize = (value.Length - index) / 3;
+                            buffer = new byte[bufferSize];
+                        }
+
+                        if (bufferIndex == 0)
+                        {
+                            if (builder == null)
+                            {
+                                builder = new StringBuilder(value.Length);
+                            }
+
+                            builder.Append(value, lastIndex, index - lastIndex);
+                        }
+
+                        buffer[bufferIndex++] = (byte)((digit1 << 4) + digit2);
+                        index += 3;
+                        continue;
+                    }
+                }
+
+                if (predicate != null && !predicate(ch))
+                {
+                    throw new UriTemplateException(string.Format("Invalid pct-encoding char \"{0}\" in \"{1}\".", ch, value));
+                }
+
+                if (bufferIndex != 0)
+                {
+                    UnescapeBytes(builder, buffer, bufferIndex);
+                    bufferIndex = 0;
+                    lastIndex = index;
+                }
+
+                index++;
+            }
+
+            if (bufferIndex != 0)
+            {
+                if (builder == null)
+                {
+                    builder = new StringBuilder(value.Length);
+                }
+
+                UnescapeBytes(builder, buffer, bufferIndex);
+                lastIndex = value.Length;
+            }
+
+            if (builder != null)
+            {
+                builder.Append(value, lastIndex, value.Length - lastIndex);
+                value = builder.ToString();
+            }
+
+            return value;
+        }
+
+        private static void EscapeByte(StringBuilder builder, byte value)
         {
             builder.Append('%');
             builder.Append(HexAlphabit[value >> 4]);
             builder.Append(HexAlphabit[value & 15]);
         }
 
-        private static bool IsUnreservedChar(char value)
+        private static void EscapeBytes(StringBuilder builder, string value, int offset, int count)
         {
-            if ((value >= 'a' && value <= 'z') ||
-                (value >= 'A' && value <= 'Z') ||
-                (value >= '0' && value <= '9'))
-            {
-                return true;
-            }
+            var encoding = Encoding.UTF8;
+            var bufferSize = encoding.GetMaxByteCount(count);
+            var buffer = new byte[bufferSize];
 
-            switch (value)
-            {
-                case '-':
-                case '.':
-                case '_':
-                case '~':
-                    return true;
-            }
+            var length = encoding.GetBytes(value, offset, count, buffer, 0);
 
-            return false;
+            for (var i = 0; i < length; i++)
+            {
+                EscapeByte(builder, buffer[i]);
+            }
         }
 
-        private static bool IsReservedChar(char value)
+        private static void UnescapeBytes(StringBuilder builder, byte[] buffer, int count)
         {
-            switch (value)
+            if (count == 1 && buffer[0] < 127)
             {
-                case ':':
-                case '/':
-                case '?':
-                case '#':
-                case '[':
-                case ']':
-                case '@':
-                case '!':
-                case '$':
-                case '&':
-                case '\'':
-                case '(':
-                case ')':
-                case '*':
-                case '+':
-                case ',':
-                case ';':
-                case '=':
-                    return true;
+                builder.Append((char)buffer[0]);
+            }
+            else
+            {
+                var value = Encoding.UTF8.GetString(buffer, 0, count);
+                builder.Append(value);
+            }
+        }
+
+        private static int GetHexDigit(char hex)
+        {
+            var value = hex - (hex < 58 ? 48 : (hex < 97 ? 55 : 87));
+
+            if (value < 0 || value > 15)
+            {
+                value = -1;
             }
 
-            return false;
+            return value;
         }
     }
 }
