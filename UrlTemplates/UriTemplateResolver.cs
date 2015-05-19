@@ -11,7 +11,7 @@
         internal UriTemplateResolver(UriTemplate template)
         {
             this.template = template;
-            this.variables = new Dictionary<string, object>();
+            this.variables = new Dictionary<string, object>(StringComparer.Ordinal);
         }
 
         public string Resolve()
@@ -47,6 +47,12 @@
         public UriTemplateResolver Ignore(string name)
         {
             return BindVariable(name, null);
+        }
+
+        public UriTemplateResolver Clear()
+        {
+            variables.Clear();
+            return this;
         }
 
         private UriTemplateResolver BindVariable(string name, object value)

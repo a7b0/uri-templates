@@ -20,14 +20,14 @@
         {
         }
 
-        public UriTemplateBuilder(UriTemplate uriTemplate)
+        public UriTemplateBuilder(UriTemplate template)
         {
-            if (uriTemplate == null)
+            if (template == null)
             {
-                throw new ArgumentNullException("uriTemplate");
+                throw new ArgumentNullException("template");
             }
 
-            this.components = new List<IUriComponent>(uriTemplate.Components);
+            this.components = new List<IUriComponent>(template.Components);
         }
 
         public UriTemplateBuilder(UriTemplateBuilder builder)

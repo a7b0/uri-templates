@@ -57,6 +57,15 @@
             varChar = IsVarChar;
         }
 
+        [Flags]
+        private enum CharType : byte
+        {
+            None = 0,
+            Unreserved = 1,
+            Reserved = 2,
+            VarChar = 4
+        }
+
         internal static Predicate<char> Safe
         {
             get { return safe; }
@@ -90,15 +99,6 @@
         private static bool HasType(char ch, CharType charSpecType)
         {
             return ch < 128 && (charTypeMap[ch] & charSpecType) != 0;
-        }
-
-        [Flags]
-        public enum CharType : byte
-        {
-            None = 0,
-            Unreserved = 1,
-            Reserved = 2,
-            VarChar = 4
         }
     }
 }

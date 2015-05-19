@@ -5,7 +5,7 @@
     using System.Text;
 
     /// <summary>
-    /// URI template processor (RFC6570)
+    /// URI template processor (RFC6570).
     /// </summary>
     public sealed class UriTemplate
     {
@@ -85,7 +85,7 @@
             }
             catch (Exception exception)
             {
-                throw new UriTemplateException("Error at resolve uri template.", exception);
+                throw new UriTemplateException("Error at resolve URI template.", exception);
             }
 
             return builder.ToString();
@@ -123,7 +123,7 @@
             }
             catch (Exception exception)
             {
-                throw new UriTemplateException("Error at partial resolve uri template.", exception);
+                throw new UriTemplateException("Error at partial resolve URI template.", exception);
             }
 
             return new UriTemplate(partialComponents);
