@@ -34,7 +34,7 @@ Resolve a URI template:
     
 	Assert.AreEqual("http://example.org/world/news?type=actual&count=10", uri);
 
-Another way to resolve a URI template:
+Resolve a URI template using fluent interface:
 
 	var template = new UriTemplate("http://example.org/{area}/news{?type}");
     
@@ -47,19 +47,18 @@ Another way to resolve a URI template:
 
 Construct a URI template:
 
-	var template = new UriTemplateBuilder()
-	    .Append("http://example.org/")
-	    .Append(new VarSpec("area"))
-	    .Append("/news")
-	    .Append('?', new VarSpec("type"), new VarSpec("count"))
-	    .Build();
+    var template = new UriTemplateBuilder()
+        .Literal("http://example.org/")
+        .Simple(new VarSpec("area"))
+        .Literal("/last-news")
+        .Query("type", new VarSpec("count"))
+        .Build();
 	
 	Assert.AreEqual("http://example.org/{area}/news{?type,count}", template.ToString());
 
 Partial resolve a URI template:
 
 	var template = new UriTemplate("http://example.org/{area}/news{?type,count}");
-	
 	var partiallyResolved = template.GetResolver().Bind("count", "10").ResolveTemplate();
     
 	Assert.AreEqual("http://example.org/{area}/news?count=10{&type}", partiallyResolved.ToString());

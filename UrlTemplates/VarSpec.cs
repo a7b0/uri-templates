@@ -68,6 +68,11 @@
             get { return maxLength; }
         }
 
+        public static implicit operator VarSpec(string name)
+        {
+            return new VarSpec(name);
+        }
+
         public static string Escape(string name)
         {
             return PctEncoding.Escape(name, CharSpec.VarChar);

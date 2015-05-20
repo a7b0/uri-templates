@@ -11,11 +11,11 @@
         {
             var builder = new UriTemplateBuilder();
 
-            builder.Append("abc");
+            builder.Literal("abc");
             var actual = builder.Build().Template;
             Assert.AreEqual("abc", actual);
 
-            builder.Append("/def");
+            builder.Literal("/def");
             actual = builder.Build().Template;
             Assert.AreEqual("abc/def", actual);
         }
@@ -24,7 +24,7 @@
         public void BuildExpressionTest()
         {
             var builder = new UriTemplateBuilder();
-            builder.Append(new VarSpec("test"));
+            builder.Simple(new VarSpec("test"));
             Assert.AreEqual("{test}", builder.Build().Template);
         }
 
@@ -32,7 +32,7 @@
         public void BuildExpressionsTest()
         {
             var builder = new UriTemplateBuilder();
-            builder.Append(new VarSpec("t1"), new VarSpec("t2"), new VarSpec("t3"));
+            builder.Simple(new VarSpec("t1"), new VarSpec("t2"), new VarSpec("t3"));
             Assert.AreEqual("{t1,t2,t3}", builder.Build().Template);
         }
 
@@ -42,7 +42,7 @@
             char expressionOp)
         {
             var builder = new UriTemplateBuilder();
-            builder.Append(expressionOp, new VarSpec("test"));
+            builder.Expression(expressionOp, new VarSpec("test"));
 
             var expected = "{" + expressionOp + "test}";
             var actual = builder.Build().Template;
@@ -58,7 +58,7 @@
 
             foreach (var op in ops)
             {
-                builder.Append(op, new VarSpec("test"));
+                builder.Expression(op, new VarSpec("test"));
             }
 
             var actual = string.Join(string.Empty, ops.Select(x => "{" + x + "test}").ToArray());
@@ -70,10 +70,10 @@
         public void BuildExampleTest()
         {
             var template = new UriTemplateBuilder()
-                .Append("http://example.org/")
-                .Append(new VarSpec("area"))
-                .Append("/last-news")
-                .Append('?', new VarSpec("type"), new VarSpec("count"))
+                .Literal("http://example.org/")
+                .Simple(new VarSpec("area"))
+                .Literal("/last-news")
+                .Query("type", new VarSpec("count"))
                 .Build();
 
             Assert.AreEqual("http://example.org/{area}/last-news{?type,count}", template.ToString());

@@ -29,7 +29,6 @@
             Assert.AreEqual("hello%2C%20world%21", actual);
         }
 
-
         [Test]
         public void EscapeNonAsciiStringTest()
         {
@@ -37,7 +36,6 @@
             var actual = PctEncoding.Escape(value, CharSpec.ExtendedSafe);
             Assert.AreEqual("%D0%BC%D0%B8%D1%80", actual);
         }
-
 
         [Test]
         public void EscapeLastNonAsiiPartOfStringTest()
@@ -86,7 +84,6 @@
             var actual = PctEncoding.Unescape(value);
             Assert.AreEqual("мир", actual);
         }
-
 
         [Test]
         public void UnescapeLastNonAsiiPartOfStringTest()
