@@ -1,9 +1,9 @@
-﻿namespace Resta.UriTemplates
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
+namespace Resta.UriTemplates
+{
     internal class Literal : IUriComponent
     {
         public Literal(string value)
@@ -25,7 +25,7 @@
 
         public IEnumerable<IUriComponent> ResolveTemplate(IDictionary<string, object> variables)
         {
-            return new IUriComponent[] { this };
+            return new IUriComponent[] {this};
         }
 
         public override string ToString()

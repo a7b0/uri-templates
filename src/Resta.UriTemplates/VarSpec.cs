@@ -1,12 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Resta.UriTemplates
 {
-    using System;
-    using System.Text;
-
     /// <summary>
-    /// Description of URI template variable.
+    ///     Description of URI template variable.
     /// </summary>
     public sealed class VarSpec
     {
@@ -45,7 +43,7 @@ namespace Resta.UriTemplates
             {
                 throw new ArgumentException(string.Format("Invalid variable name \"{0}\"", name), nameof(name));
             }
-            
+
             Name = name;
             Exploded = exploded;
             MaxLength = maxLength;

@@ -1,7 +1,7 @@
-﻿namespace Resta.UriTemplates
-{
-    using System;
+﻿using System;
 
+namespace Resta.UriTemplates
+{
     internal static class CharSpec
     {
         private static readonly CharType[] CharTypeMap;
@@ -10,17 +10,17 @@
         {
             CharTypeMap = new CharType[128];
 
-            for (var i = (byte)'0'; i <= (byte)'9'; i++)
+            for (var i = (byte) '0'; i <= (byte) '9'; i++)
             {
                 CharTypeMap[i] = CharType.Unreserved | CharType.VarChar;
             }
 
-            for (var i = (byte)'a'; i <= (byte)'z'; i++)
+            for (var i = (byte) 'a'; i <= (byte) 'z'; i++)
             {
                 CharTypeMap[i] = CharType.Unreserved | CharType.VarChar;
             }
 
-            for (var i = (byte)'A'; i <= (byte)'Z'; i++)
+            for (var i = (byte) 'A'; i <= (byte) 'Z'; i++)
             {
                 CharTypeMap[i] = CharType.Unreserved | CharType.VarChar;
             }
@@ -54,15 +54,6 @@
             VarChar = IsVarChar;
         }
 
-        [Flags]
-        private enum CharType : byte
-        {
-            None = 0,
-            Unreserved = 1,
-            Reserved = 2,
-            VarChar = 4
-        }
-
         internal static Predicate<char> Safe { get; }
 
         internal static Predicate<char> ExtendedSafe { get; }
@@ -87,6 +78,15 @@
         private static bool HasType(char ch, CharType charSpecType)
         {
             return ch < 128 && (CharTypeMap[ch] & charSpecType) != 0;
+        }
+
+        [Flags]
+        private enum CharType : byte
+        {
+            None = 0,
+            Unreserved = 1,
+            Reserved = 2,
+            VarChar = 4
         }
     }
 }

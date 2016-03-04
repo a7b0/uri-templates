@@ -1,8 +1,8 @@
-﻿namespace Resta.UriTemplates
-{
-    using System;
-    using System.Text;
+﻿using System;
+using System.Text;
 
+namespace Resta.UriTemplates
+{
     internal static class PctEncoding
     {
         private const string HexAlphabit = "0123456789ABCDEF";
@@ -36,11 +36,11 @@
                     {
                         if (builder == null)
                         {
-                            builder = new StringBuilder(value.Length * 2);
+                            builder = new StringBuilder(value.Length*2);
                         }
 
                         builder.Append(value, lastIndex, index - lastIndex);
-                        EscapeByte(builder, (byte)ch);
+                        EscapeByte(builder, (byte) ch);
                         lastIndex = index + 1;
                     }
                 }
@@ -48,7 +48,7 @@
                 {
                     if (builder == null)
                     {
-                        builder = new StringBuilder(value.Length * 2);
+                        builder = new StringBuilder(value.Length*2);
                     }
 
                     builder.Append(value, lastIndex, index - lastIndex);
@@ -64,7 +64,7 @@
             {
                 if (builder == null)
                 {
-                    builder = new StringBuilder(value.Length * 2);
+                    builder = new StringBuilder(value.Length*2);
                 }
 
                 EscapeBytes(builder, value, lastIndex, value.Length - lastIndex);
@@ -73,7 +73,7 @@
 
             if (builder == null)
                 return value;
-            
+
             builder.Append(value, lastIndex, value.Length - lastIndex);
             value = builder.ToString();
             return value;
@@ -100,7 +100,7 @@
                     {
                         if (buffer == null)
                         {
-                            var bufferSize = (value.Length - index) / 3;
+                            var bufferSize = (value.Length - index)/3;
                             buffer = new byte[bufferSize];
                         }
 
@@ -114,7 +114,7 @@
                             builder.Append(value, lastIndex, index - lastIndex);
                         }
 
-                        buffer[bufferIndex++] = (byte)((digit1 << 4) + digit2);
+                        buffer[bufferIndex++] = (byte) ((digit1 << 4) + digit2);
                         index += 3;
                         continue;
                     }
@@ -122,7 +122,8 @@
 
                 if (predicate != null && !predicate(ch))
                 {
-                    throw new UriTemplateException(string.Format("Invalid pct-encoding char \"{0}\" in \"{1}\".", ch, value));
+                    throw new UriTemplateException(string.Format("Invalid pct-encoding char \"{0}\" in \"{1}\".", ch,
+                        value));
                 }
 
                 if (bufferIndex != 0)
@@ -180,7 +181,7 @@
         {
             if (count == 1 && buffer[0] < 127)
             {
-                builder.Append((char)buffer[0]);
+                builder.Append((char) buffer[0]);
             }
             else
             {

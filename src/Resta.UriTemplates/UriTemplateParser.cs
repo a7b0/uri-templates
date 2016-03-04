@@ -1,20 +1,20 @@
-﻿namespace Resta.UriTemplates
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
+namespace Resta.UriTemplates
+{
     internal class UriTemplateParser
     {
         private readonly string _template;
-        private List<IUriComponent> _components;
         private StringBuilder _builder;
-        private Token _token;
-        private int _position;
+        private List<IUriComponent> _components;
         private Operator _exprOperator;
-        private List<VarSpec> _varSpecs;
+        private int _position;
+        private Token _token;
         private bool _varSpecExloded;
         private int _varSpecMaxLength;
+        private List<VarSpec> _varSpecs;
 
         public UriTemplateParser(string template)
         {
@@ -24,15 +24,6 @@
             }
 
             _template = template;
-        }
-
-        private enum Token
-        {
-            Literal,
-            Expression,
-            VarSpec,
-            VarSpecMaxLength,
-            VarSpecExploded
         }
 
         public static List<IUriComponent> Parse(string template)
@@ -89,7 +80,9 @@
             }
             catch (Exception exception)
             {
-                throw new UriTemplateParseException(string.Format("Error at parse URI template: {0}", exception.Message), _template, _position, exception);
+                throw new UriTemplateParseException(
+                    string.Format("Error at parse URI template: {0}", exception.Message), _template, _position,
+                    exception);
             }
 
             return _components;
@@ -165,7 +158,7 @@
                 }
                 else
                 {
-                    _varSpecMaxLength = _varSpecMaxLength * 10 + digit;
+                    _varSpecMaxLength = _varSpecMaxLength*10 + digit;
                 }
             }
             else if (!TryReadEndVarSpec(ch))
@@ -247,6 +240,15 @@
         private void ThrowException(string message)
         {
             throw new UriTemplateParseException(message, _template, _position);
+        }
+
+        private enum Token
+        {
+            Literal,
+            Expression,
+            VarSpec,
+            VarSpecMaxLength,
+            VarSpecExploded
         }
     }
 }

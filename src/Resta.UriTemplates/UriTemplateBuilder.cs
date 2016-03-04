@@ -1,10 +1,10 @@
-﻿namespace Resta.UriTemplates
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace Resta.UriTemplates
+{
     /// <summary>
-    /// Used to effective programmatically construct URI template.
+    ///     Used to effective programmatically construct URI template.
     /// </summary>
     public class UriTemplateBuilder
     {
@@ -51,45 +51,21 @@
             return this;
         }
 
-        public UriTemplateBuilder Simple(params VarSpec[] vars)
-        {
-            return Expression(Operator.Default, vars);
-        }
+        public UriTemplateBuilder Simple(params VarSpec[] vars) => Expression(Operator.Default, vars);
 
-        public UriTemplateBuilder Reserved(params VarSpec[] vars)
-        {
-            return Expression(Operator.Reserved, vars);
-        }
+        public UriTemplateBuilder Reserved(params VarSpec[] vars) => Expression(Operator.Reserved, vars);
 
-        public UriTemplateBuilder Fragment(params VarSpec[] vars)
-        {
-            return Expression(Operator.Fragment, vars);
-        }
+        public UriTemplateBuilder Fragment(params VarSpec[] vars) => Expression(Operator.Fragment, vars);
 
-        public UriTemplateBuilder Label(params VarSpec[] vars)
-        {
-            return Expression(Operator.Label, vars);
-        }
+        public UriTemplateBuilder Label(params VarSpec[] vars) => Expression(Operator.Label, vars);
 
-        public UriTemplateBuilder Matrix(params VarSpec[] vars)
-        {
-            return Expression(Operator.Matrix, vars);
-        }
+        public UriTemplateBuilder Matrix(params VarSpec[] vars) => Expression(Operator.Matrix, vars);
 
-        public UriTemplateBuilder Path(params VarSpec[] vars)
-        {
-            return Expression(Operator.Path, vars);
-        }
+        public UriTemplateBuilder Path(params VarSpec[] vars) => Expression(Operator.Path, vars);
 
-        public UriTemplateBuilder Query(params VarSpec[] vars)
-        {
-            return Expression(Operator.Query, vars);
-        }
+        public UriTemplateBuilder Query(params VarSpec[] vars) => Expression(Operator.Query, vars);
 
-        public UriTemplateBuilder QueryContinuation(params VarSpec[] vars)
-        {
-            return Expression(Operator.Continuation, vars);
-        }
+        public UriTemplateBuilder QueryContinuation(params VarSpec[] vars) => Expression(Operator.Continuation, vars);
 
         public UriTemplateBuilder Expression(char exprOperator, params VarSpec[] vars)
         {
@@ -103,10 +79,7 @@
             return this;
         }
 
-        public UriTemplate Build()
-        {
-            return new UriTemplate(_components);
-        }
+        public UriTemplate Build() => new UriTemplate(_components);
 
         private UriTemplateBuilder Expression(Operator op, params VarSpec[] vars)
         {

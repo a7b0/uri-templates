@@ -1,8 +1,8 @@
-﻿namespace Resta.UriTemplates
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace Resta.UriTemplates
+{
     public sealed class UriTemplateResolver
     {
         private readonly UriTemplate _template;
@@ -14,40 +14,19 @@
             _variables = new Dictionary<string, object>(StringComparer.Ordinal);
         }
 
-        public string Resolve()
-        {
-            return _template.Resolve(_variables);
-        }
+        public string Resolve() => _template.Resolve(_variables);
 
-        public Uri ResolveUri()
-        {
-            return _template.ResolveUri(_variables);
-        }
+        public Uri ResolveUri() => _template.ResolveUri(_variables);
 
-        public UriTemplate ResolveTemplate()
-        {
-            return _template.ResolveTemplate(_variables);
-        }
+        public UriTemplate ResolveTemplate() => _template.ResolveTemplate(_variables);
 
-        public UriTemplateResolver Bind(string name, string value)
-        {
-            return BindVariable(name, value);
-        }
+        public UriTemplateResolver Bind(string name, string value) => BindVariable(name, value);
 
-        public UriTemplateResolver Bind(string name, IEnumerable<string> values)
-        {
-            return BindVariable(name, values);
-        }
+        public UriTemplateResolver Bind(string name, IEnumerable<string> values) => BindVariable(name, values);
 
-        public UriTemplateResolver Bind(string name, IDictionary<string, string> values)
-        {
-            return BindVariable(name, values);
-        }
+        public UriTemplateResolver Bind(string name, IDictionary<string, string> values) => BindVariable(name, values);
 
-        public UriTemplateResolver Ignore(string name)
-        {
-            return BindVariable(name, null);
-        }
+        public UriTemplateResolver Ignore(string name) => BindVariable(name, null);
 
         public UriTemplateResolver Clear()
         {

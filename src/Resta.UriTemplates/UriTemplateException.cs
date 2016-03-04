@@ -1,7 +1,7 @@
-﻿namespace Resta.UriTemplates
-{
-    using System;
+﻿using System;
 
+namespace Resta.UriTemplates
+{
     public class UriTemplateException : Exception
     {
         public UriTemplateException(string message)

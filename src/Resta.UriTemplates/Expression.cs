@@ -1,13 +1,10 @@
-﻿namespace Resta.UriTemplates
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-#if !NET20
-    using System.Linq;
-#endif
-    using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
+namespace Resta.UriTemplates
+{
     internal class Expression : IUriComponent
     {
         private readonly List<VarSpec> _varSpecs;
@@ -96,7 +93,8 @@
             {
                 if (Operator == Operator.Default || Operator == Operator.Reserved || Operator == Operator.Fragment)
                 {
-                    throw new UriTemplateException(string.Format("Partial resolve of expression \"{0}\" is not available.", ToString()));
+                    throw new UriTemplateException(
+                        string.Format("Partial resolve of expression \"{0}\" is not available.", ToString()));
                 }
             }
 
@@ -123,7 +121,7 @@
 
         public override string ToString()
         {
-            var builder = new StringBuilder(21 * _varSpecs.Count + 2);
+            var builder = new StringBuilder(21*_varSpecs.Count + 2);
 
             builder.Append('{');
 
@@ -176,14 +174,17 @@
 
                     if (dictionaryValue == null)
                     {
-                        throw new UriTemplateException(string.Format("Invalid value type of variable \"{0}\". Expected: string or IEnumerable<string> or IDictionary<string, string>.", value.GetType()));
+                        throw new UriTemplateException(
+                            string.Format(
+                                "Invalid value type of variable \"{0}\". Expected: string or IEnumerable<string> or IDictionary<string, string>.",
+                                value.GetType()));
                     }
-                    else if (dictionaryValue.Count == 0)
+                    if (dictionaryValue.Count == 0)
                     {
                         return false;
                     }
                 }
-                else if (collectionValue.Count() == 0)
+                else if (!collectionValue.Any())
                 {
                     return false;
                 }

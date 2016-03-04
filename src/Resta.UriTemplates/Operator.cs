@@ -1,7 +1,5 @@
 ﻿namespace Resta.UriTemplates
 {
-    using System;
-
     internal class Operator
     {
         public static readonly Operator Default = new Operator('\0', null, ",", null, false, false);

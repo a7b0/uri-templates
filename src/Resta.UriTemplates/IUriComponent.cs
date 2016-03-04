@@ -1,8 +1,8 @@
-﻿namespace Resta.UriTemplates
-{
-    using System.Collections.Generic;
-    using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
+namespace Resta.UriTemplates
+{
     internal interface IUriComponent
     {
         void Resolve(StringBuilder builder, IDictionary<string, object> variables);

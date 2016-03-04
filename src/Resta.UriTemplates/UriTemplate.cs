@@ -1,11 +1,11 @@
-﻿namespace Resta.UriTemplates
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
+namespace Resta.UriTemplates
+{
     /// <summary>
-    /// URI template processor (RFC6570).
+    ///     URI template processor (RFC6570).
     /// </summary>
     public sealed class UriTemplate
     {
@@ -63,7 +63,7 @@
                 throw new ArgumentNullException(nameof(variables));
             }
 
-            var builder = new StringBuilder(Template.Length * 2);
+            var builder = new StringBuilder(Template.Length*2);
 
             try
             {
@@ -122,10 +122,7 @@
             return new UriTemplate(partialComponents);
         }
 
-        public override string ToString()
-        {
-            return Template;
-        }
+        public override string ToString() => Template;
 
         private static string GetTemplateString(List<IUriComponent> components)
         {
