@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
@@ -6,9 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("Resta.UriTemplates")]
-[assembly:
-    AssemblyDescription(
-        ".NET implementation of the URI template spec (RFC6570). Supports up to level 4 template expressions.")]
+[assembly: AssemblyDescription(".NET implementation of the URI template spec (RFC6570). Supports up to level 4 template expressions.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Resta.UriTemplates")]
@@ -21,3 +20,6 @@ using System.Runtime.InteropServices;
 // COM, set the ComVisible attribute to true on that type.
 
 [assembly: ComVisible(false)]
+
+// Make visible to unit tests
+[assembly:InternalsVisibleTo("Resta.UriTemplates.Tests")]
