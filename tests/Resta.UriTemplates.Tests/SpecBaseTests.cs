@@ -13,6 +13,7 @@ namespace Resta.UriTemplates.Tests
 
         protected virtual IEnumerable<TestCase> InvalidSamples => GetTestCases(false);
 
+        
         [Fact]
         public void SpecTests()
         {
@@ -22,6 +23,7 @@ namespace Resta.UriTemplates.Tests
             }
         }
 
+        // TODO: Write attribute that will generate different tests
         private static void SpecTest(TestCase testCase)
         {
             var uriTemplate = new UriTemplate(testCase.Template);
@@ -38,6 +40,7 @@ namespace Resta.UriTemplates.Tests
             }
         }
 
+        // TODO: Write attribute that will generate different tests
         private static void SpecInvalidTest(TestCase testCase)
         {
             try
