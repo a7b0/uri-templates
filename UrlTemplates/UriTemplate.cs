@@ -91,7 +91,28 @@
             return builder.ToString();
         }
 
+        public string Resolve(object variables)
+        {
+            if (variables == null)
+            {
+                throw new ArgumentNullException("variables");
+            }
+
+            var dictionary = new Dictionary<string, object>();
+            foreach (var property in variables.GetType().GetProperties())
+            {
+                if (property.GetGetMethod() != null && property.GetIndexParameters().Length == 0)
+                    dictionary.Add(property.Name, property.GetValue(variables, null));
+            }
+            return Resolve(dictionary);
+        }
+
         public Uri ResolveUri(IDictionary<string, object> variables)
+        {
+            return new Uri(Resolve(variables));
+        }
+
+        public Uri ResolveUri(object variables)
         {
             return new Uri(Resolve(variables));
         }
