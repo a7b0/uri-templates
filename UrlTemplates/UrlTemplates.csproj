@@ -4,12 +4,17 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Resta.UriTemplates</AssemblyName>
     <RootNamespace>Resta.UriTemplates</RootNamespace>
-    <Description></Description>
+    <Description>.NET implementation of the URI template spec (RFC6570). Supports up to level 4 template expressions.</Description>
     <Company>NetBike</Company>
     <Copyright>Copyright © NetBike 2013</Copyright>
     <AssemblyVersion>1.3.0.0</AssemblyVersion>
     <FileVersion>1.1.0.0</FileVersion>
     <Version>1.3.0</Version>
+    <Authors>Pavel Shkarin</Authors>
+    <PackageLicenseUrl>https://github.com/a7b0/uri-templates/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/a7b0/uri-templates</PackageProjectUrl>
+    <PackageTags>URI HTTP REST</PackageTags>
+    <PackageId>Resta.UriTemplates</PackageId>
   </PropertyGroup>
 
 </Project>
