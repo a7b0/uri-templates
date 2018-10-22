@@ -1,4 +1,6 @@
-﻿namespace Resta.UriTemplates
+﻿using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("Resta.UriTemplates.Tests")]
+namespace Resta.UriTemplates
 {
     using System;
     using System.Text;

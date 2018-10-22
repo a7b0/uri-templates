@@ -68,12 +68,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UrlTemplates\UrlTemplates.csproj">
-      <Project>{938c8e54-eaad-4c52-ba78-1bae2b870503}</Project>
-      <Name>UrlTemplates</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +80,12 @@
     <PackageReference Include="NUnit3TestAdapter">
       <Version>3.10.0</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UrlTemplates\UrlTemplates.csproj">
+      <Project>{d716c336-fb6a-40ac-9284-0705b88a9f91}</Project>
+      <Name>UrlTemplates</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
