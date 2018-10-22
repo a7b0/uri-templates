@@ -23,7 +23,7 @@ namespace Resta.UriTemplates.Tests
         {
             var testSuites = new List<TestSuite>();
 
-            using (var stream = File.OpenRead(Path.Combine(TestContext.CurrentContext.TestDirectory, fileName)))
+            using (var stream = File.OpenRead(Path.Combine(TestContext.CurrentContext.WorkDirectory, fileName)))
             {
                 var root = JObject.Load(new JsonTextReader(new StreamReader(stream)));
 
