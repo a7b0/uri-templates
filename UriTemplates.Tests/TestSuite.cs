@@ -1,4 +1,6 @@
-﻿namespace Resta.UriTemplates.Tests
+﻿using NUnit.Framework;
+
+namespace Resta.UriTemplates.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -21,7 +23,7 @@
         {
             var testSuites = new List<TestSuite>();
 
-            using (var stream = File.OpenRead(fileName))
+            using (var stream = File.OpenRead(Path.Combine(TestContext.CurrentContext.TestDirectory, fileName)))
             {
                 var root = JObject.Load(new JsonTextReader(new StreamReader(stream)));
 
