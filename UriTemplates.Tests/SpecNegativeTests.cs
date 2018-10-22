@@ -1,10 +1,23 @@
-﻿namespace Resta.UriTemplates.Tests
+﻿using NUnit.Framework;
+
+namespace Resta.UriTemplates.Tests
 {
-    public class SpecNegativeTests : SpecBaseTests
+    [TestFixture]
+    public class SpecNegativeTests
     {
-        public override string FileName
+
+        private const string FileName = "testcases/negative-tests.json";
+
+        [Test, TestCaseSource(typeof(TestCaseData), nameof(TestCaseData.GetSamples), new object[] { FileName })]
+        protected void SpecTest(TestCase testCase)
         {
-            get { return "testcases/negative-tests.json"; }
+            SpecBaseTests.SpecTest(testCase);
+        }
+
+        [Test, TestCaseSource(typeof(TestCaseData), nameof(TestCaseData.GetInvalidSamples), new object[] { FileName })]
+        protected void SpecInvalidTest(TestCase testCase)
+        {
+            SpecBaseTests.SpecInvalidTest(testCase);
         }
     }
 }

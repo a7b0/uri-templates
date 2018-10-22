@@ -1,10 +1,23 @@
-﻿namespace Resta.UriTemplates.Tests
+﻿using System;
+using NUnit.Framework;
+
+namespace Resta.UriTemplates.Tests
 {
-    public class SpecExtendedTests : SpecBaseTests
+    [TestFixture]
+    public class SpecExtendedTests
     {
-        public override string FileName
+        private const string FileName = "testcases/extended-tests.json";
+        
+        [Test, TestCaseSource(typeof(TestCaseData), nameof(TestCaseData.GetSamples), new object [] { FileName })]
+        protected void SpecTest(TestCase testCase)
         {
-            get { return "testcases/extended-tests.json"; }
+            SpecBaseTests.SpecTest(testCase);
+        }
+
+        [Test, TestCaseSource(typeof(TestCaseData), nameof(TestCaseData.GetInvalidSamples), new object[] {FileName})]
+        protected void SpecInvalidTest(TestCase testCase)
+        {
+            SpecBaseTests.SpecInvalidTest(testCase);
         }
     }
 }
