@@ -9,7 +9,7 @@ Resta.UriTemplates
 * Precompiled URI templates
 * Partial resolve of URI templates
 * It is passes all tests defined by the [uritemplate-test](https://github.com/uri-templates/uritemplate-test) suite.
-* .NET 2.0 and higher
+* Targets .NET Standard 2.0
 
 Install
 -------

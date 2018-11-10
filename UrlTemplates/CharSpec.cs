@@ -1,7 +1,9 @@
-﻿namespace Resta.UriTemplates
+﻿using System.Runtime.CompilerServices;
+
+namespace Resta.UriTemplates
 {
     using System;
-
+    
     internal static class CharSpec
     {
         private static readonly CharType[] charTypeMap;
