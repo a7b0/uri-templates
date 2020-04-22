@@ -91,16 +91,16 @@
             return builder.ToString();
         }
 
-        public Uri ResolveUri(IDictionary<string, object> variables)
+        public Uri ResolveUri(IDictionary<string, object> variables, UriKind uriKind = UriKind.RelativeOrAbsolute)
         {
-            return new Uri(Resolve(variables));
+            return new Uri(Resolve(variables), uriKind);
         }
 
         public UriTemplate ResolveTemplate(IDictionary<string, object> variables)
         {
             if (variables == null)
             {
-                throw new ArgumentNullException("variables");
+                throw new ArgumentNullException(nameof(variables));
             }
 
             if (variables.Count == 0)

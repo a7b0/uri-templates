@@ -1,6 +1,5 @@
 ﻿namespace Resta.UriTemplates.Tests
 {
-    using System.Collections.Generic;
     using NUnit.Framework;
 
     [TestFixture]
