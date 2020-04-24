@@ -1,4 +1,6 @@
-﻿namespace Resta.UriTemplates.Tests
+﻿using System;
+
+namespace Resta.UriTemplates.Tests
 {
     using System.Collections.Generic;
     using NUnit.Framework;
@@ -17,6 +19,26 @@
             });
 
             Assert.AreEqual("http://example.com/foo", actual);
+        }
+
+        [Test]
+        public void GuidValueIsNotSupported_UseStringInstead()
+        {
+            var template = new UriTemplate("http://example.com/{guid}/{int}");
+
+            var ex = Assert.Throws<UriTemplateException>(() => template.Resolve(new Dictionary<string, object> {{ "guid", Guid.NewGuid() }}));
+
+            Assert.That(ex.Message, Does.Contain("Invalid value type of variable \"System.Guid\". Expected: string or IEnumerable<string> or IDictionary<string, string>."));
+        }
+
+        [Test]
+        public void IntValueIsNotSupported_UseStringInstead()
+        {
+            var template = new UriTemplate("http://example.com/{guid}/{int}");
+
+            var ex = Assert.Throws<UriTemplateException>(() => template.Resolve(new Dictionary<string, object> {{ "int", 42 }}));
+
+            Assert.That(ex.Message, Does.Contain("Invalid value type of variable \"System.Int32\". Expected: string or IEnumerable<string> or IDictionary<string, string>."));
         }
 
         [Test]
@@ -157,6 +179,36 @@
             }
 
             Assert.Fail("Test must die");
+        }
+
+        [Test]
+        public void ResolveUri()
+        {
+            var template = new UriTemplate("http://example.com{/paths*}{?q1,q2}{#f*}");
+
+            var actual = template.ResolveUri(new Dictionary<string, object>
+            {
+                { "paths", new string[] { "foo", "bar" } },
+                { "q1", "abc" },
+                { "f", new Dictionary<string, string> { { "key1", "val1" }, { "key2", null } } }
+            });
+
+            Assert.AreEqual(new Uri("http://example.com/foo/bar?q1=abc#key1=val1,key2="), actual);
+        }
+
+        [Test]
+        public void ResolveUriRelative()
+        {
+            var template = new UriTemplate("{/paths*}{?q1,q2}{#f*}");
+
+            var actual = template.ResolveUri(UriKind.RelativeOrAbsolute, new Dictionary<string, object>
+            {
+                { "paths", new string[] { "foo", "bar" } },
+                { "q1", "abc" },
+                { "f", new Dictionary<string, string> { { "key1", "val1" }, { "key2", null } } }
+            });
+
+            Assert.AreEqual(new Uri("/foo/bar?q1=abc#key1=val1,key2=", UriKind.Relative), actual);
         }
     }
 }

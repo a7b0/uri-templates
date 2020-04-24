@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Resta.UriTemplates.Tests
 {
@@ -7,7 +6,7 @@ namespace Resta.UriTemplates.Tests
     public class SpecExtendedTests
     {
         private const string FileName = "testcases/extended-tests.json";
-        
+
         [Test, TestCaseSource(typeof(TestCaseData), nameof(TestCaseData.GetSamples), new object [] { FileName })]
         public void SpecTest(TestCase testCase)
         {

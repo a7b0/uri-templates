@@ -96,11 +96,16 @@
             return new Uri(Resolve(variables));
         }
 
+        public Uri ResolveUri(UriKind uriKind, IDictionary<string, object> variables)
+        {
+            return new Uri(Resolve(variables), uriKind);
+        }
+
         public UriTemplate ResolveTemplate(IDictionary<string, object> variables)
         {
             if (variables == null)
             {
-                throw new ArgumentNullException("variables");
+                throw new ArgumentNullException(nameof(variables));
             }
 
             if (variables.Count == 0)
