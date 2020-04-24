@@ -91,7 +91,12 @@
             return builder.ToString();
         }
 
-        public Uri ResolveUri(IDictionary<string, object> variables, UriKind uriKind = UriKind.RelativeOrAbsolute)
+        public Uri ResolveUri(IDictionary<string, object> variables)
+        {
+            return new Uri(Resolve(variables));
+        }
+
+        public Uri ResolveUri(UriKind uriKind, IDictionary<string, object> variables)
         {
             return new Uri(Resolve(variables), uriKind);
         }

@@ -22,6 +22,26 @@ namespace Resta.UriTemplates.Tests
         }
 
         [Test]
+        public void GuidValueIsNotSupported_UseStringInstead()
+        {
+            var template = new UriTemplate("http://example.com/{guid}/{int}");
+
+            var ex = Assert.Throws<UriTemplateException>(() => template.Resolve(new Dictionary<string, object> {{ "guid", Guid.NewGuid() }}));
+
+            Assert.That(ex.Message, Does.Contain("Invalid value type of variable \"System.Guid\". Expected: string or IEnumerable<string> or IDictionary<string, string>."));
+        }
+
+        [Test]
+        public void IntValueIsNotSupported_UseStringInstead()
+        {
+            var template = new UriTemplate("http://example.com/{guid}/{int}");
+
+            var ex = Assert.Throws<UriTemplateException>(() => template.Resolve(new Dictionary<string, object> {{ "int", 42 }}));
+
+            Assert.That(ex.Message, Does.Contain("Invalid value type of variable \"System.Int32\". Expected: string or IEnumerable<string> or IDictionary<string, string>."));
+        }
+
+        [Test]
         public void MultiplePathSegmentTest()
         {
             var template = new UriTemplate("http://example.com/{path1}/{path2}");
@@ -181,7 +201,7 @@ namespace Resta.UriTemplates.Tests
         {
             var template = new UriTemplate("{/paths*}{?q1,q2}{#f*}");
 
-            var actual = template.ResolveUri(new Dictionary<string, object>
+            var actual = template.ResolveUri(UriKind.RelativeOrAbsolute, new Dictionary<string, object>
             {
                 { "paths", new string[] { "foo", "bar" } },
                 { "q1", "abc" },
