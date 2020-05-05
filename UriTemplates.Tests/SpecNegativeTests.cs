@@ -6,7 +6,7 @@ namespace Resta.UriTemplates.Tests
     public class SpecNegativeTests
     {
 
-        private const string FileName = "testcases/negative-tests.json";
+        private const string FileName = "TestCases/negative-tests.json";
 
         [Test, TestCaseSource(typeof(TestCaseData), nameof(TestCaseData.GetSamples), new object[] { FileName })]
         public void SpecTest(TestCase testCase)

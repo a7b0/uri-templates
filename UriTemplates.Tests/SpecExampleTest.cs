@@ -5,7 +5,7 @@ namespace Resta.UriTemplates.Tests
     [TestFixture]
     public class SpecExampleTest
     {
-        private const string FileName = "testcases/spec-examples.json";
+        private const string FileName = "TestCases/spec-examples.json";
 
         [Test, TestCaseSource(typeof(TestCaseData), nameof(TestCaseData.GetSamples), new object[] { FileName })]
         public void SpecTest(TestCase testCase)
