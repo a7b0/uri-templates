@@ -40,6 +40,8 @@ steps:
   when:
     branch:
     - master
+    event:
+    - push
 
 volumes:
 - name: nuget
