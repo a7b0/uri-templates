@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UrlTemplates\UrlTemplates.csproj" />
+    <ProjectReference Include="..\UriTemplates\UriTemplates.csproj" />
   </ItemGroup>
 
   <ItemGroup>

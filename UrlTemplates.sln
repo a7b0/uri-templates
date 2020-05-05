@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2016
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UrlTemplates", "UrlTemplates\UrlTemplates.csproj", "{D716C336-FB6A-40AC-9284-0705B88A9F91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UriTemplates", "UriTemplates\UriTemplates.csproj", "{D716C336-FB6A-40AC-9284-0705B88A9F91}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UriTemplates.Tests", "UriTemplates.Tests\UriTemplates.Tests.csproj", "{48341B52-DDA6-463F-B876-A9F6A7D14A0E}"
 EndProject
