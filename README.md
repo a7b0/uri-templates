@@ -1,6 +1,9 @@
 Resta.UriTemplates
 ==================
 
+[![Build Status](https://cloud.drone.io/api/badges/a7b0/uri-templates/status.svg)](https://cloud.drone.io/a7b0/uri-templates)
+[![NuGet](http://img.shields.io/nuget/v/Resta.UriTemplates.svg)](https://www.nuget.org/packages/Resta.UriTemplates/)
+
 .NET implementation of the URI template spec ([RFC6570](http://tools.ietf.org/html/rfc6570)):
 
 * Supports up to level 4 template expressions
@@ -14,57 +17,62 @@ Resta.UriTemplates
 Install
 -------
 
-Install via [NuGet package](https://www.nuget.org/packages/Resta.UriTemplates):
-
-	PM> Install-Package Resta.UriTemplates
-
+Install via [NuGet package](https://www.nuget.org/packages/Resta.UriTemplates)
 
 Examples
 --------
 
 Resolve a URI template:
 
-	var template = new UriTemplate("http://example.org/{area}/news{?type,count}");
+```csharp
+var template = new UriTemplate("http://example.org/{area}/news{?type,count}");
     
-	var uri = template.Resolve(new Dictionary<string, object>
-	{
-		{ "area", "world" },
-		{ "type", "actual" },
-		{ "count", "10" }
-	});
+var uri = template.Resolve(new Dictionary<string, object>
+{
+    { "area", "world" },
+    { "type", "actual" },
+    { "count", "10" }
+});
     
-	Assert.AreEqual("http://example.org/world/news?type=actual&count=10", uri);
+Assert.AreEqual("http://example.org/world/news?type=actual&count=10", uri);
+```
 
 Resolve a URI template using fluent interface:
 
-	var template = new UriTemplate("http://example.org/{area}/news{?type}");
-    
-	var uri = template.GetResolver()
-		.Bind("area", "world")
-		.Bind("type", new string[] { "it", "music", "art" } )
-		.Resolve();
-    
-	Assert.AreEqual("http://example.org/world/news?type=it,music,art", uri);
+```csharp
+var template = new UriTemplate("http://example.org/{area}/news{?type}");
+
+var uri = template.GetResolver()
+    .Bind("area", "world")
+    .Bind("type", new string[] { "it", "music", "art" } )
+    .Resolve();
+
+Assert.AreEqual("http://example.org/world/news?type=it,music,art", uri);
+```
 
 Construct a URI template:
 
-    var template = new UriTemplateBuilder()
-        .Literal("http://example.org/")
-        .Simple(new VarSpec("area"))
-        .Literal("/last-news")
-        .Query("type", new VarSpec("count"))
-        .Build();
-	
-	Assert.AreEqual("http://example.org/{area}/news{?type,count}", template.ToString());
+```csharp
+var template = new UriTemplateBuilder()
+    .Literal("http://example.org/")
+    .Simple(new VarSpec("area"))
+    .Literal("/last-news")
+    .Query("type", new VarSpec("count"))
+    .Build();
+
+Assert.AreEqual("http://example.org/{area}/news{?type,count}", template.ToString());
+```
 
 Partial resolve a URI template:
 
-	var template = new UriTemplate("http://example.org/{area}/news{?type,count}");
-	var partiallyResolved = template.GetResolver().Bind("count", "10").ResolveTemplate();
-    
-	Assert.AreEqual("http://example.org/{area}/news?count=10{&type}", partiallyResolved.ToString());
+```csharp
+var template = new UriTemplate("http://example.org/{area}/news{?type,count}");
+var partiallyResolved = template.GetResolver().Bind("count", "10").ResolveTemplate();
 
-**NB!** Partial resolve of expressions "default", "reserved" and "fragment" is not possible for multiple variables.
+Assert.AreEqual("http://example.org/{area}/news?count=10{&type}", partiallyResolved.ToString());
+```
+
+**NB!** Partial resolve of expressions `default`, `reserved` and `fragment` is not possible for multiple variables.
 
 License
 -------
@@ -72,5 +80,3 @@ License
 Copyright 2013 Pavel Shkarin
 
 [MIT License](http://mit-license.org/)
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/a7b0/uri-templates/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
