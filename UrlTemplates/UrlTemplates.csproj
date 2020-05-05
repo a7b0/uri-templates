@@ -8,13 +8,24 @@
     <Company>NetBike</Company>
     <Copyright>Copyright © NetBike 2013</Copyright>
     <AssemblyVersion>1.4.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
     <Version>1.4.0</Version>
     <Authors>Pavel Shkarin</Authors>
-    <PackageLicenseUrl>https://github.com/a7b0/uri-templates/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/a7b0/uri-templates</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/a7b0/uri-templates.git</RepositoryUrl> 
+    <RepositoryType>git</RepositoryType> 
     <PackageTags>URI HTTP REST</PackageTags>
     <PackageId>Resta.UriTemplates</PackageId>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+  </ItemGroup>
 
 </Project>
