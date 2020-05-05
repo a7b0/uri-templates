@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UriTemplates", "UriTemplate
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UriTemplates.Tests", "UriTemplates.Tests\UriTemplates.Tests.csproj", "{48341B52-DDA6-463F-B876-A9F6A7D14A0E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9DFB8BE7-A6C0-4E08-AC5F-E75DA3CA2BD6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
