@@ -36,7 +36,7 @@ steps:
   commands:
   - cd UriTemplates
   - dotnet pack -c Release --no-build --no-restore
-  - dotnet nuget push bin/Release/**.nupkg --source "https://nuget.org" --api-key $NUGET_APIKEY
+  - dotnet nuget push bin/Release/**.nupkg --source "https://nuget.org" --api-key $NUGET_APIKEY --skip-duplicate
   when:
     branch:
     - master
