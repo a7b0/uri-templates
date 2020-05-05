@@ -1,0 +1,53 @@
+kind: pipeline
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+
+- name: build
+  image: mcr.microsoft.com/dotnet/core/sdk:3.1
+  volumes:
+    - name: nuget
+      path: /root/.nuget/packages/
+  commands:
+  - git submodule update --init
+  - dotnet restore
+  - dotnet build -c Release --no-restore
+
+- name: test
+  image: mcr.microsoft.com/dotnet/core/sdk:3.1
+  volumes:
+  - name: nuget
+    path: /root/.nuget/packages/
+  commands:
+  - dotnet test -c Release --no-build --no-restore
+
+- name: publish
+  image: mcr.microsoft.com/dotnet/core/sdk:3.1
+  environment:
+    NUGET_APIKEY:
+      from_secret: NUGET_APIKEY
+  volumes:
+  - name: nuget
+    path: /root/.nuget/packages/
+  commands:
+  - cd UriTemplates
+  - dotnet pack -c Release --no-build --no-restore
+  - dotnet nuget push bin/Release/**.nupkg --source "https://nuget.org" --api-key $NUGET_APIKEY
+  when:
+    branch:
+    - master
+
+volumes:
+- name: nuget
+  temp: {}
+
+trigger:
+  event:
+  - pull_request
+  - push
+  - tag
+  
